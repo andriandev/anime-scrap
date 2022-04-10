@@ -1,0 +1,21 @@
+{
+  "name": "otakudesu-scrap",
+  "version": "1.0.0",
+  "description": "otakudesu scrap",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "nodemon": "nodemon index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "nodejs-web-scraper": "^6.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
