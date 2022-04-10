@@ -15,6 +15,7 @@ router.get('/about', Pages.About);
 
 router.get('/scrap', Scrap.Index);
 router.get('/scrap/geteps', Scrap.ScrapEps);
+router.get('/scrap/getalleps', Scrap.ScrapAlleps);
 
 router.use('/', Pages.Error); // Halaman 404
 

@@ -6,15 +6,16 @@
         </div>
     </div>
 
-    <div class="card shadow">
+    <div class="card shadow mb-3">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6 my-3">
-                        <div class="mb-3">
-                            <input type="text" class="form-control"  placeholder="https://otakudesu.site/sxf-episode-1-sub-indo/" id="url">
-                        </div>
-                        <button id="submit" class="btn btn-primary btn small" type="button">Submit</button>
-                        <button id="btnCopy" class="btn btn-primary btn small" type="button">Copy Teks</button>
+                    <div class="mb-3">
+                        <input type="text" class="form-control"  placeholder="Alamat..." id="url">
+                    </div>
+                    <button id="btnEps" class="btn btn-primary btn small me-1" type="button">One Eps</button>
+                    <button id="btnAllEps" class="btn btn-primary btn small me-1" type="button">All Eps</button>
+                    <button id="btnCopy" class="btn btn-primary btn small" type="button">Copy Teks</button>
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-3">
@@ -27,11 +28,20 @@
 </div>
 
 <script>
-    const button = document.getElementById('submit');
+    const btnEps = document.getElementById('btnEps');
     const url = document.getElementById('url');
     const datadl = document.getElementById('datadl');
-    button.addEventListener('click', () => {
+    btnEps.addEventListener('click', () => {
         fetch('/scrap/geteps?url=' + url.value)
+        .then(response => response.json())
+        .then(response => {
+            datadl.innerText = response;
+        })
+    })
+
+    const btnAllEps = document.getElementById('btnAllEps');
+    btnAllEps.addEventListener('click', () => {
+        fetch('/scrap/getalleps?url=' + url.value)
         .then(response => response.json())
         .then(response => {
             datadl.innerText = response;
