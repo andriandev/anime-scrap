@@ -6,18 +6,20 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6 my-3">
                         <div class="mb-3">
-                            <label for="url" class="form-label">Url</label>
-                            <input type="text" class="form-control" id="url" name="url">
+                            <input type="text" class="form-control"  placeholder="https://otakudesu.site/sxf-episode-1-sub-indo/" id="url">
                         </div>
                         <button id="submit" class="btn btn-primary btn small" type="button">Submit</button>
+                        <button id="btnCopy" class="btn btn-primary btn small" type="button">Copy Teks</button>
                 </div>
-                <div class="col-lg-6 my-3">
-                    <textarea rows="12" class="form-control" placeholder="Data link download ..." id="datadl"></textarea>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <textarea rows="12" class="form-control" placeholder="Data link download ..." id="datadl"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,14 +28,22 @@
 
 <script>
     const button = document.getElementById('submit');
-    button.addEventListener('click', function() {
-        const url = document.getElementById('url');
-        const datadl = document.getElementById('datadl');
+    const url = document.getElementById('url');
+    const datadl = document.getElementById('datadl');
+    button.addEventListener('click', () => {
         fetch('/scrap/geteps?url=' + url.value)
         .then(response => response.json())
         .then(response => {
             datadl.innerText = response;
         })
+    })
+
+    const btnCopy = document.getElementById('btnCopy');
+    btnCopy.addEventListener('click', () => {
+        datadl.select();
+        datadl.setSelectionRange(0, 99999);
+
+        navigator.clipboard.writeText(datadl.value);
     })
 </script>
 <%- include('../layouts/footer') -%>
