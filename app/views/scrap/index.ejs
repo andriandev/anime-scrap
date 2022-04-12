@@ -40,6 +40,9 @@
         .then(response => {
             datadl.innerText = response;
         })
+        .catch((e) => {
+            datadl.innerHTML = e;
+        })
     })
 
     btnAllEps.addEventListener('click', () => {
@@ -47,6 +50,9 @@
         .then(response => response.json())
         .then(response => {
             datadl.innerText = response;
+        })
+        .catch((e) => {
+            datadl.innerHTML = e;
         })
     })
 

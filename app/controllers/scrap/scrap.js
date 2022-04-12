@@ -9,7 +9,7 @@ exports.Index = (req, res) => {
 }
 
 exports.ScrapEps = (req, res) => {
-    if(req.query.url == '') {
+    if(req.query.url == '' || !req.query.url) {
         res.json('Empty Urls');
     } else {
         (async () => {
@@ -18,6 +18,7 @@ exports.ScrapEps = (req, res) => {
                 startUrl: req.query.url,
                 concurrency: 5, //Maximum concurrent jobs. More than 10 is not recommended.Default is 3.
                 maxRetries: 3, //The scraper will try to repeat a failed request few times(excluding 404). Default is 5.       
+                showConsoleLogs: false,
                 logPath: null, //Highly recommended: Creates a friendly JSON for each operation object, with all the relevant data.
             }
 
@@ -45,7 +46,7 @@ exports.ScrapEps = (req, res) => {
 }
 
 exports.ScrapAlleps = (req, res) => {
-    if(req.query.url == '') {
+    if(req.query.url == '' || !req.query.url) {
         res.json('Empty All Urls');
     } else {
         ( async () => {
@@ -54,6 +55,7 @@ exports.ScrapAlleps = (req, res) => {
                 startUrl: req.query.url,
                 concurrency: 1, //Maximum concurrent jobs. More than 10 is not recommended.Default is 3.
                 maxRetries: 3, //The scraper will try to repeat a failed request few times(excluding 404). Default is 5.       
+                showConsoleLogs: false,
                 logPath: null, //Highly recommended: Creates a friendly JSON for each operation object, with all the relevant data.
             }
 
