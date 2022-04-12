@@ -9,17 +9,17 @@
     <div class="card shadow mb-3">
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-6 my-3">
+                <div class="col-lg-6 my-2">
                     <div class="mb-3">
-                        <input type="text" class="form-control"  placeholder="Alamat..." id="url">
+                        <input type="text" class="form-control"  placeholder="Url..." id="url">
                     </div>
                     <button id="btnEps" class="btn btn-primary btn small me-1" type="button">One Eps</button>
                     <button id="btnAllEps" class="btn btn-primary btn small me-1" type="button">All Eps</button>
-                    <button id="btnCopy" class="btn btn-primary btn small" type="button">Copy Teks</button>
+                    <button id="btnCopy" class="btn btn-primary btn small me-1" type="button">Copy Teks</button>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 my-2">
                     <div class="mb-3">
-                        <textarea rows="12" class="form-control" placeholder="Data link download ..." id="datadl"></textarea>
+                        <textarea rows="12" class="form-control" placeholder="Data link ..." id="datadl"></textarea>
                     </div>
                 </div>
             </div>
@@ -31,6 +31,9 @@
     const btnEps = document.getElementById('btnEps');
     const url = document.getElementById('url');
     const datadl = document.getElementById('datadl');
+    const btnAllEps = document.getElementById('btnAllEps');
+    const btnCopy = document.getElementById('btnCopy');
+
     btnEps.addEventListener('click', () => {
         fetch('/scrap/geteps?url=' + url.value)
         .then(response => response.json())
@@ -39,7 +42,6 @@
         })
     })
 
-    const btnAllEps = document.getElementById('btnAllEps');
     btnAllEps.addEventListener('click', () => {
         fetch('/scrap/getalleps?url=' + url.value)
         .then(response => response.json())
@@ -48,7 +50,6 @@
         })
     })
 
-    const btnCopy = document.getElementById('btnCopy');
     btnCopy.addEventListener('click', () => {
         datadl.select();
         datadl.setSelectionRange(0, 99999);
