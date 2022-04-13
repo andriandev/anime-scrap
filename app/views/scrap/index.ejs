@@ -28,30 +28,38 @@
 </div>
 
 <script>
-    const btnEps = document.getElementById('btnEps');
     const url = document.getElementById('url');
     const datadl = document.getElementById('datadl');
+    const btnEps = document.getElementById('btnEps');
     const btnAllEps = document.getElementById('btnAllEps');
     const btnCopy = document.getElementById('btnCopy');
 
     btnEps.addEventListener('click', () => {
+        btnDisabled();
         fetch('/scrap/geteps?url=' + url.value)
         .then(response => response.json())
         .then(response => {
+            url.value = '';
+            btnNormal();
             datadl.innerText = response;
         })
         .catch((e) => {
+            btnNormal();
             datadl.innerHTML = e;
         })
     })
 
     btnAllEps.addEventListener('click', () => {
+        btnDisabled();
         fetch('/scrap/getalleps?url=' + url.value)
         .then(response => response.json())
         .then(response => {
+            url.value = '';
+            btnNormal();
             datadl.innerText = response;
         })
         .catch((e) => {
+            btnNormal();
             datadl.innerHTML = e;
         })
     })
@@ -62,5 +70,17 @@
 
         navigator.clipboard.writeText(datadl.value);
     })
+
+    function btnDisabled () {
+        btnEps.setAttribute('disabled', true);
+        btnAllEps.setAttribute('disabled', true);
+        btnCopy.setAttribute('disabled', true);
+    }
+
+    function btnNormal () {
+        btnAllEps.removeAttribute('disabled');
+        btnEps.removeAttribute('disabled');
+        btnCopy.removeAttribute('disabled');
+    }
 </script>
 <%- include('../layouts/footer') -%>
