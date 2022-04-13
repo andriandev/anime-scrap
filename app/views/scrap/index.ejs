@@ -34,34 +34,12 @@
     const btnAllEps = document.getElementById('btnAllEps');
     const btnCopy = document.getElementById('btnCopy');
 
-    btnEps.addEventListener('click', () => {
-        btnDisabled();
-        fetch('/scrap/geteps?url=' + url.value)
-        .then(response => response.json())
-        .then(response => {
-            url.value = '';
-            btnNormal();
-            datadl.innerText = response;
-        })
-        .catch((e) => {
-            btnNormal();
-            datadl.innerHTML = e;
-        })
+    btnEps.addEventListener('click', async () => {
+        await getLink('/scrap/geteps', url.value);
     })
 
-    btnAllEps.addEventListener('click', () => {
-        btnDisabled();
-        fetch('/scrap/getalleps?url=' + url.value)
-        .then(response => response.json())
-        .then(response => {
-            url.value = '';
-            btnNormal();
-            datadl.innerText = response;
-        })
-        .catch((e) => {
-            btnNormal();
-            datadl.innerHTML = e;
-        })
+    btnAllEps.addEventListener('click', async () => {
+        await getLink('/scrap/getalleps', url.value);
     })
 
     btnCopy.addEventListener('click', () => {
@@ -70,6 +48,26 @@
 
         navigator.clipboard.writeText(datadl.value);
     })
+
+    function getLink (urlService, urlRequest) {
+        if(!urlRequest || urlRequest == '') {
+            datadl.innerText = 'Url harus di isi.';
+            return false;
+        }
+        btnDisabled(); 
+        fetch(`${urlService}?url=${urlRequest}`)
+        .then(response => response.json())
+        .then(response => {
+            url.value = '';
+            datadl.innerText = response;
+        })
+        .catch((e) => {
+            datadl.innerHTML = e;
+        })
+        .finally(() => {
+            btnNormal();
+        })
+    }
 
     function btnDisabled () {
         btnEps.setAttribute('disabled', true);
