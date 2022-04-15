@@ -38,9 +38,18 @@ exports.ScrapEps = (req, res) => {
         
             await scraper.scrape(root);
         
-            const links = link.getData() //Will return an array of all article objects(from all categories), each
+            try {
+                const links = link.getData();
 
-            res.json(links);  
+                if (links == '') {
+                    res.json('Invalid url.');
+                    return false;
+                }
+
+                res.json(links); 
+            } catch (e) {
+                res.json(e);
+            } 
         })();  
     }
 }
@@ -78,14 +87,23 @@ exports.ScrapAlleps = (req, res) => {
 
             await scraper.scrape(root);
 
-            const Alleps = eps.getData(); 
+            try {
+                const Alleps = eps.getData(); 
 
-            let AllData = [];
-            Alleps.forEach(el => {
-                AllData.push(el.data[0].data);
-            });
+                if (Alleps == '') {
+                    res.json('Invalid url.');
+                    return false;
+                }
 
-            res.json(AllData.reverse().join(' '));
+                let AllData = [];
+                Alleps.forEach(el => {
+                    AllData.push(el.data[0].data);
+                });
+
+                res.json(AllData.reverse().join(' '));
+            } catch (e) {
+                res.json(e);
+            }
         })();
     }
 }

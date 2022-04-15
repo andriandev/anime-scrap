@@ -13,13 +13,26 @@
                     <div class="mb-3">
                         <input type="text" class="form-control"  placeholder="Url..." id="url">
                     </div>
-                    <button id="btnEps" class="btn btn-primary btn small me-1" type="button">One Eps</button>
-                    <button id="btnAllEps" class="btn btn-primary btn small me-1" type="button">All Eps</button>
-                    <button id="btnCopy" class="btn btn-primary btn small me-1" type="button">Copy Teks</button>
+                    <div id="btn-action">
+                        <button id="btnEps" class="btn btn-primary my-1 me-1" type="button">One Eps</button>
+                        <button id="btnAllEps" class="btn btn-primary my-1 me-1" type="button">All Eps</button>
+                        <button id="btnCopy" class="btn btn-primary my-1 me-1" type="button">Copy Teks</button>
+                        <div class="loading my-1 d-inline d-none">
+                            <div class="spinner-grow spinner-grow-sm text-success" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow spinner-grow-sm text-warning" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow spinner-grow-sm text-danger" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6 my-2">
                     <div class="mb-3">
-                        <textarea rows="12" class="form-control" placeholder="Data link ..." id="datadl"></textarea>
+                        <textarea rows="12" class="form-control" placeholder="Data link ..." id="datadl" readonly></textarea>
                     </div>
                 </div>
             </div>
@@ -30,23 +43,21 @@
 <script>
     const url = document.getElementById('url');
     const datadl = document.getElementById('datadl');
-    const btnEps = document.getElementById('btnEps');
-    const btnAllEps = document.getElementById('btnAllEps');
-    const btnCopy = document.getElementById('btnCopy');
+    const btnAction = document.getElementById('btn-action');
+    const btnLoading = document.querySelector('.loading');
 
-    btnEps.addEventListener('click', async () => {
-        await getLink('/scrap/geteps', url.value);
-    })
-
-    btnAllEps.addEventListener('click', async () => {
-        await getLink('/scrap/getalleps', url.value);
-    })
-
-    btnCopy.addEventListener('click', () => {
-        datadl.select();
-        datadl.setSelectionRange(0, 99999);
-
-        navigator.clipboard.writeText(datadl.value);
+    btnAction.addEventListener('click', async (e) => {
+        if (e.target.id == 'btnEps') {
+            await getLink('/scrap/geteps', url.value);
+        } else if (e.target.id == 'btnAllEps') {
+            await getLink('/scrap/getalleps', url.value);
+        } else if (e.target.id == 'btnCopy') {
+            datadl.select();
+            datadl.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(datadl.value);
+        } else {
+            return false;
+        }
     })
 
     function getLink (urlService, urlRequest) {
@@ -73,12 +84,14 @@
         btnEps.setAttribute('disabled', true);
         btnAllEps.setAttribute('disabled', true);
         btnCopy.setAttribute('disabled', true);
+        btnLoading.classList.remove('d-none');
     }
 
     function btnNormal () {
         btnAllEps.removeAttribute('disabled');
         btnEps.removeAttribute('disabled');
         btnCopy.removeAttribute('disabled');
+        btnLoading.classList.add('d-none');
     }
 </script>
 <%- include('../layouts/footer') -%>
