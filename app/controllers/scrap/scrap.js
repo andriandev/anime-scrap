@@ -158,7 +158,7 @@ exports.ScrapAlleps = (req, res) => {
         
             const root = new Root(); //The root object fetches the startUrl, and starts the process.  
 
-            const link = new CollectContent('article .entry-content', { name: 'link', contentType:'html' }); //"Collects" the link dl from each
+            const link = new CollectContent('article .entry-content', { name: 'link', contentType:'html', getElementContent }); //"Collects" the link dl from each
 
             root.addOperation(link); //Then we create a scraping "tree":
 
