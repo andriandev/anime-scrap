@@ -137,6 +137,46 @@ exports.ScrapEps = (req, res) => {
 exports.ScrapAlleps = (req, res) => {
     if(req.query.url == '' || !req.query.url) {
         res.json('Empty All Urls');
+    } else if(req.query.url.includes('meownime')) {
+        ( async () => {
+            const config = {
+                baseSiteUrl: `https://meownime.ltd/`,
+                startUrl: req.query.url,
+                concurrency: 1, //Maximum concurrent jobs. More than 10 is not recommended.Default is 3.
+                maxRetries: 3, //The scraper will try to repeat a failed request few times(excluding 404). Default is 5.       
+                showConsoleLogs: false,
+                logPath: null, //Highly recommended: Creates a friendly JSON for each operation object, with all the relevant data.
+            }  
+
+            function getElementContent(element){
+                return `<div class="entry-content">${element}</div>`;
+            } 
+
+            const scraper = new Scraper(config); //Create a new Scraper instance, and pass config to it.
+
+            //Now we create the "operations" we need:
+        
+            const root = new Root(); //The root object fetches the startUrl, and starts the process.  
+
+            const link = new CollectContent('article .entry-content', { name: 'link', contentType:'html' }); //"Collects" the link dl from each
+
+            root.addOperation(link); //Then we create a scraping "tree":
+
+            await scraper.scrape(root);
+
+            try {
+                const Alleps = link.getData(); 
+
+                if (Alleps == '') {
+                    res.json('Invalid url.');
+                    return false;
+                }
+
+                res.json(Alleps);
+            } catch (e) {
+                res.json(e);
+            }
+        })();
     } else if(req.query.url.includes('neonime')) {
         ( async () => {
             const config = {
