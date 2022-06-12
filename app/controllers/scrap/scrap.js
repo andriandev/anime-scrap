@@ -225,10 +225,10 @@ exports.ScrapAlleps = (req, res) => {
                 res.json(e);
             }
         })();
-    } else if(req.query.url.includes('oploverz')) {
+    } else if(req.query.url.includes('oploverz') || req.query.url.includes('65.108.132.145')) {
         ( async () => {
             const config = {
-                baseSiteUrl: `https://oploverz.asia/`,
+                baseSiteUrl: `https://65.108.132.145.asia/`,
                 startUrl: req.query.url,
                 concurrency: 1, //Maximum concurrent jobs. More than 10 is not recommended.Default is 3.
                 maxRetries: 3, //The scraper will try to repeat a failed request few times(excluding 404). Default is 5.       
